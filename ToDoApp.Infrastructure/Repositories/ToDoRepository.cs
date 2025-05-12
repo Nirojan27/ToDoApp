@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Globalization;
 using System.Text.Json;
 using ToDoApp.Domain.Entities;
 using ToDoApp.Domain.Repositories;
@@ -72,14 +73,33 @@ namespace ToDoApp.Infrastructure.Repositories
             SaveData();
         }
 
-        public List<ToDoItem> GetAll(bool? completed = null, bool overdueOnly = false)
+        public List<ToDoItem> GetAll(bool? completed = null, bool overdueOnly = false, string sortBy = null)
         {
             var now = DateTime.UtcNow;
 
-            return _tasks
+            // Filtering Logic
+            var filteredTasks = _tasks
                 .Where(t => completed == null || t.IsCompleted == completed)
                 .Where(t => !overdueOnly || (t.DueDate.HasValue && t.DueDate.Value < now && !t.IsCompleted))
                 .ToList();
+
+            // Sorting Logic
+            if (sortBy != null)
+            {
+                var sortedTasks = sortBy.ToLower() switch
+                {
+                    "title" => filteredTasks.OrderBy(t => t.Title).ToList(),
+                    "duedate" => filteredTasks.OrderBy(t => t.DueDate).ToList(),
+                    "createddate" => filteredTasks.OrderBy(t => t.CreatedAt).ToList(),
+                    _ => filteredTasks.OrderBy(t => t.Id).ToList() // Default: Sort by ID
+                };
+
+                return sortedTasks;
+            }
+            else
+            {
+                return filteredTasks;
+            }
         }
 
         public ToDoItem? GetById(int id)

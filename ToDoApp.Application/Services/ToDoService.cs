@@ -1,4 +1,5 @@
-﻿using ToDoApp.Domain.Entities;
+﻿using System.Globalization;
+using ToDoApp.Domain.Entities;
 using ToDoApp.Domain.Interfaces;
 using ToDoApp.Domain.Repositories;
 
@@ -69,5 +70,20 @@ namespace ToDoApp.Application.Services
         {
             return _repository.GetAll(overdueOnly: true);
         }
+
+        public List<ToDoItem> GetCompletedTasksSortedByTitle(bool ascending = true) {
+            return _repository.GetAll(completed: true, sortBy: "title"); 
+        }
+
+        public List<ToDoItem> GetIncompleteTasksSortedByDueDate(bool ascending = true)
+        {
+            return _repository.GetAll(completed: false, sortBy: "title");
+        }
+
+        public List<ToDoItem> GetOverdueTasksSortedByCreatedDate(bool ascending = true)
+        {
+            return _repository.GetAll(overdueOnly: true, sortBy: "createddate");
+        }
+
     }
 }
