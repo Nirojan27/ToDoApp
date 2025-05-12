@@ -72,9 +72,14 @@ namespace ToDoApp.Infrastructure.Repositories
             SaveData();
         }
 
-        public List<ToDoItem> GetAll()
+        public List<ToDoItem> GetAll(bool? completed = null, bool overdueOnly = false)
         {
-            return _tasks;
+            var now = DateTime.UtcNow;
+
+            return _tasks
+                .Where(t => completed == null || t.IsCompleted == completed)
+                .Where(t => !overdueOnly || (t.DueDate.HasValue && t.DueDate.Value < now && !t.IsCompleted))
+                .ToList();
         }
 
         public ToDoItem? GetById(int id)

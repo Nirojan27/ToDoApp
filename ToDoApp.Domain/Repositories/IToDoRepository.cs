@@ -8,7 +8,7 @@ namespace ToDoApp.Domain.Repositories
         void Update(int id, string? title, string? description, DateTime? dueDate);
         void UpdateStatus(int id, bool isCompleted);
         void Delete(int id);
-        List<ToDoItem> GetAll();
+        List<ToDoItem> GetAll(bool? completed = null, bool overdueOnly = false);
         ToDoItem? GetById(int id);
     }
 

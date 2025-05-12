@@ -161,5 +161,53 @@ namespace ToDoApp.Tests
             Assert.NotNull(result);
             Assert.Equal("Find Me", result.Title);
         }
+        [Fact]
+        public void GetCompletedTasks_ShouldReturnOnlyCompletedTasks()
+        {
+            // Arrange
+            var initialCount = _repository.GetAll(completed: true).Count;
+            var completedTask = new ToDoItem { Title = "Completed Task", IsCompleted = true };
+            var incompleteTask = new ToDoItem { Title = "Incomplete Task", IsCompleted = false };
+            _repository.Add(completedTask);
+            _repository.Add(incompleteTask);
+
+            // Act
+            var tasks = _repository.GetAll(completed: true);
+
+            // Assert
+            Assert.Equal(initialCount + 1, tasks.Count);
+            Assert.True(tasks.All(t => t.IsCompleted));
+
+            // Log output
+            _output.WriteLine("Returned Tasks:");
+            foreach (var t in tasks)
+            {
+                _output.WriteLine($"Task ID: {t.Id}, Title: {t.Title}, Description: {t.Description}, DueDate: {t.DueDate}");
+            }
+        }
+
+        [Fact]
+        public void GetOverdueTasks_ShouldReturnOnlyOverdueTasks()
+        {
+            // Arrange
+            var initialCount = _repository.GetAll(overdueOnly: true).Count;
+            var overdueTask = new ToDoItem { Title = "Overdue Task", DueDate = DateTime.UtcNow.AddDays(-2), IsCompleted = false };
+            _repository.Add(overdueTask);
+
+            // Act
+            var tasks = _repository.GetAll(overdueOnly: true);
+
+            // Assert
+            Assert.Equal(initialCount + 1, tasks.Count);
+            Assert.True(tasks.All(t => t.DueDate < DateTime.UtcNow && !t.IsCompleted));
+
+            // Log output
+            _output.WriteLine("Returned Tasks:");
+            foreach (var t in tasks)
+            {
+                _output.WriteLine($"Task ID: {t.Id}, Title: {t.Title}, Description: {t.Description}, DueDate: {t.DueDate}");
+            }
+        }
+
     }
 }

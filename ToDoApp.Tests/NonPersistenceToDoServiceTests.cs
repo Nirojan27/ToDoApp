@@ -95,7 +95,7 @@ namespace ToDoApp.Tests
                 new ToDoItem { Id = 2, Title = "Task 2" }
             };
 
-            _mockRepo.Setup(r => r.GetAll()).Returns(tasks);
+            _mockRepo.Setup(r => r.GetAll(null, false)).Returns(tasks);
 
             // Act
             var result = _service.GetTasks();

@@ -54,6 +54,20 @@ namespace ToDoApp.Application.Services
         {
             return _repository.GetById(id);
         }
-    }
 
+        public List<ToDoItem> GetCompletedTasks()
+        {
+            return _repository.GetAll(completed: true);
+        }
+
+        public List<ToDoItem> GetIncompleteTasks()
+        {
+            return _repository.GetAll(completed: false);
+        }
+
+        public List<ToDoItem> GetOverdueTasks()
+        {
+            return _repository.GetAll(overdueOnly: true);
+        }
+    }
 }
