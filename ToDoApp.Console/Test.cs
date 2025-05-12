@@ -19,8 +19,25 @@ namespace ToDoApp.Console1
         public void TestMethod()
         {
             // Access the configuration value
-            var dataFromJsonFile = _configuration.GetSection("FileName").Value;
-            Console.WriteLine(dataFromJsonFile);
+            var dataFromJsonFile = _configuration["FileName"];
+            if (dataFromJsonFile != null)
+            {
+                Console.WriteLine($"File Name: {dataFromJsonFile}");
+            }
+            else
+            {
+                Console.WriteLine("FileName section is missing or null.");
+            }
+
+            string? filePath = _configuration["FileSettings:FilePath"];
+            if (filePath != null)
+            {
+                Console.WriteLine($"File Path: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("FileSettings:FilePath is missing or null.");
+            }
         }
     }
 }
