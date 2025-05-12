@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ToDoApp.Domain.Entities;
+using ToDoApp.Domain.Repositories;
 
 namespace ToDoApp.Infrastructure.Repositories
 {
@@ -26,6 +22,10 @@ namespace ToDoApp.Infrastructure.Repositories
             {
                 var json = File.ReadAllText(_filePath);
                 _tasks = JsonSerializer.Deserialize<List<ToDoItem>>(json) ?? new List<ToDoItem>();
+            }
+            else
+            {
+                File.WriteAllText(_filePath, "[]"); // Initialize with an empty JSON array
             }
         }
 
@@ -82,6 +82,4 @@ namespace ToDoApp.Infrastructure.Repositories
             return _tasks.FirstOrDefault(t => t.Id == id);
         }
     }
-
-
 }

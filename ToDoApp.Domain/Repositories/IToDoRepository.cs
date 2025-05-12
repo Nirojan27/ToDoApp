@@ -1,6 +1,6 @@
 ﻿using ToDoApp.Domain.Entities;
 
-namespace ToDoApp.Infrastructure.Repositories
+namespace ToDoApp.Domain.Repositories
 {
     public interface IToDoRepository
     {
