@@ -40,6 +40,7 @@ Test > Test Explorer
 Test Explorer will show a list of discovered test methods.
 
 2. Run Existing Test Methods(Persistence tests and Non Persistence tests available)
+Create the folder `C:\ToDoList` if it does not exist.
 In Test Explorer, locate your test methods.
 Click Run All to execute all tests.
 To run a specific test, right-click on it and select Run.
@@ -56,6 +57,5 @@ Failed tests (❌ Red)
 Click on a failed test to view error details and some output logging.
 Click on a passed test to view sucess details and some output logging.
 
-5. Check create json file for tasks output
-FilePath Used to `C:\ToDoList\ToDoTasks.json`
-Create the folder `C:\ToDoList` if it does not exist.
+5. Check json file for tasks output
+FilePath `C:\ToDoList\ToDoTasks.json`
